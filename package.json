@@ -1,0 +1,20 @@
+{
+  "name": "cookmybots-whatsapp-bot",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "install:root": "bash -lc \"set -e; if [ -f package-lock.json ]; then npm ci; else npm install; fi\"",
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js",
+    "build": "bash -lc \"npm run install:root && echo build\""
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongodb": "^6.10.0"
+  }
+}

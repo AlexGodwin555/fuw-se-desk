@@ -1,0 +1,18 @@
+import "dotenv/config";
+
+export const cfg = {
+  PORT: process.env.PORT || "3000",
+  MONGODB_URI: process.env.MONGODB_URI || "",
+
+  COOKMYBOTS_AI_ENDPOINT: process.env.COOKMYBOTS_AI_ENDPOINT || "",
+  COOKMYBOTS_AI_KEY: process.env.COOKMYBOTS_AI_KEY || "",
+  WEB3_CHAT_MODE: process.env.WEB3_CHAT_MODE || "auto",
+
+  CMB_WHATSAPP_WEBHOOK_SECRET: process.env.CMB_WHATSAPP_WEBHOOK_SECRET || "",
+
+  CMB_WHATSAPP_TRANSPORT_ENDPOINT: process.env.CMB_WHATSAPP_TRANSPORT_ENDPOINT || "",
+  CMB_WHATSAPP_TRANSPORT_KEY: process.env.CMB_WHATSAPP_TRANSPORT_KEY || "",
+
+  COOKMYBOTS_X_ENDPOINT: process.env.COOKMYBOTS_X_ENDPOINT || "",
+  COOKMYBOTS_X_KEY: process.env.COOKMYBOTS_X_KEY || "",
+};

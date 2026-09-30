@@ -1,0 +1,598 @@
+{
+  "projectId": "c65c102e-e0a6-4a04-8c59-b063680a2b28",
+  "commands": [
+    {
+      "command": "latest announcement",
+      "description": "Shows the most recent active department announcements from Google Sheets.",
+      "usage": "latest announcement",
+      "examples": [
+        "User: latest announcement → Bot: Shows active announcements."
+      ],
+      "notes": "WhatsApp natural-language capability, not a slash command."
+    },
+    {
+      "command": "show me 300 level announcements",
+      "description": "Shows active current announcements for a specific level.",
+      "usage": "show me 300 level announcements",
+      "examples": [
+        "User: show me 300 level announcements → Bot: Lists active 300 level announcements."
+      ],
+      "notes": "Expired announcements are hidden from students."
+    },
+    {
+      "command": "who teaches CSC 302?",
+      "description": "Finds the lecturer and course details for a course code.",
+      "usage": "who teaches CSC 302?",
+      "examples": [
+        "User: who teaches CSC 302? → Bot: Returns lecturer, venue, schedule, and semester if available."
+      ],
+      "notes": "Answers only from active Courses records."
+    },
+    {
+      "command": "show me Dr. Musa's details",
+      "description": "Returns approved lecturer details such as role, office, phone, email, courses, office hours, bio, and photo link.",
+      "usage": "show me Dr. Musa's details",
+      "examples": [
+        "User: show me Dr. Musa's details → Bot: Returns approved details from the Lecturers sheet."
+      ],
+      "notes": "Only active approved records are shared."
+    },
+    {
+      "command": "send Dr. Bello's picture",
+      "description": "Returns the lecturer PhotoURL from the approved Lecturers sheet.",
+      "usage": "send Dr. Bello's picture",
+      "examples": [
+        "User: send Dr. Bello's picture → Bot: Sends the approved photo link."
+      ],
+      "notes": "Direct media sending can be added when the managed WhatsApp transport exposes image upload for bot brains."
+    },
+    {
+      "command": "show me the timetable for 200 level",
+      "description": "Shows active timetable entries for the specified level.",
+      "usage": "show me the timetable for 200 level",
+      "examples": [
+        "User: show me the timetable for 200 level → Bot: Lists timetable rows by day and time."
+      ],
+      "notes": "Uses the Timetable Google Sheet."
+    },
+    {
+      "command": "what is the department fee?",
+      "description": "Returns active approved fee information from DepartmentInfo.",
+      "usage": "what is the department fee?",
+      "examples": [
+        "User: what is the department fee? → Bot: Returns confirmed fee details if present."
+      ],
+      "notes": "The bot does not invent fee amounts."
+    },
+    {
+      "command": "who is the department contact person?",
+      "description": "Returns the approved department contact person and phone number.",
+      "usage": "who is the department contact person?",
+      "examples": [
+        "User: who is the department contact person? → Bot: Returns contact details from DepartmentInfo."
+      ],
+      "notes": "Uses active approved DepartmentInfo records."
+    },
+    {
+      "command": "admin code YOUR_CODE",
+      "description": "Verifies approved department staff for admin actions.",
+      "usage": "admin code YOUR_CODE",
+      "examples": [
+        "User: admin code 123456 → Bot: Admin access verified."
+      ],
+      "notes": "Use ADMIN_ACCESS_CODE_HASH or AdminUsers.AccessCodeHash in production."
+    },
+    {
+      "command": "Add announcement",
+      "description": "Starts an admin workflow to add an announcement to Google Sheets.",
+      "usage": "Add announcement",
+      "examples": [
+        "Admin: Add announcement → Bot: Asks for each required field."
+      ],
+      "notes": "Requires verified admin access."
+    },
+    {
+      "command": "Update announcement",
+      "description": "Starts an admin workflow to update an existing announcement.",
+      "usage": "Update announcement",
+      "examples": [
+        "Admin: Update announcement → Bot: Asks for AnnouncementID, field, and new value."
+      ],
+      "notes": "Requires verified admin access."
+    },
+    {
+      "command": "Delete announcement",
+      "description": "Archives an announcement by setting Status to Archived.",
+      "usage": "Delete announcement",
+      "examples": [
+        "Admin: Delete announcement → Bot: Asks for AnnouncementID."
+      ],
+      "notes": "The bot does not hard-delete rows."
+    },
+    {
+      "command": "View active announcements",
+      "description": "Shows active announcements with IDs for admin editing.",
+      "usage": "View active announcements",
+      "examples": [
+        "Admin: View active announcements → Bot: Lists active announcements and IDs."
+      ],
+      "notes": "Requires verified admin access."
+    },
+    {
+      "command": "Add lecturer",
+      "description": "Starts an admin workflow to add lecturer information.",
+      "usage": "Add lecturer",
+      "examples": [
+        "Admin: Add lecturer → Bot: Asks for lecturer fields."
+      ],
+      "notes": "Requires verified admin access."
+    },
+    {
+      "command": "Update lecturer",
+      "description": "Starts an admin workflow to update lecturer information.",
+      "usage": "Update lecturer",
+      "examples": [
+        "Admin: Update lecturer → Bot: Asks for LecturerID, field, and new value."
+      ],
+      "notes": "Requires verified admin access."
+    },
+    {
+      "command": "Add course",
+      "description": "Starts an admin workflow to add a course record.",
+      "usage": "Add course",
+      "examples": [
+        "Admin: Add course → Bot: Asks for course fields."
+      ],
+      "notes": "Requires verified admin access."
+    },
+    {
+      "command": "Update timetable",
+      "description": "Adds or updates a timetable entry matched by Level, CourseCode, and Day.",
+      "usage": "Update timetable",
+      "examples": [
+        "Admin: Update timetable → Bot: Asks for timetable fields."
+      ],
+      "notes": "Requires verified admin access."
+    }
+  ],
+  "aiMessages": [
+    {
+      "role": "user",
+      "content": "Create a WhatsApp Business bot only. Do not create a Telegram bot. Do not deploy this bot to Telegram. This bot is intended only for WhatsApp private chats using WhatsApp Business or WhatsApp Business API.\n\nThe bot is the official WhatsApp assistant for:\n\nUniversity: Federal University Wukari\nFaculty: Faculty of Computing and Information Systems\nDepartment: Department of Software Engineering\n\nThe bot should introduce itself as:\n“Hello, I am the official WhatsApp assistant for the Department of Software Engineering, Faculty of Computing and Information Systems, Federal University Wukari. I can help you with department announcements, lecturer information, courses, timetables, fees, deadlines, venues, and other approved department information.”\n\nThis must be a WhatsApp bot, not a Telegram bot. All interaction examples, user flows, and deployment assumptions should be based on WhatsApp private chat. Do not use Telegram-specific features such as Telegram usernames, Telegram groups, Telegram commands, inline keyboards, Telegram bot tokens, or Telegram channel setup.\n\nThe bot should help students get accurate department information through WhatsApp private chat. Students should be able to message the department WhatsApp bot directly and ask questions naturally.\n\nAll data should be stored and managed using Google Sheets.\n\nCreate or connect the following Google Sheets tables:\n\n1) Announcements\nFields:\nAnnouncementID, Title, Category, Level, CourseCode, Message, DatePosted, ExpiryDate, Priority, Status\n\n2) Lecturers\nFields:\nLecturerID, FullName, Title, DepartmentRole, OfficeLocation, PhoneNumber, Email, CoursesTaught, OfficeHours, Bio, PhotoURL, Status\n\n3) Courses\nFields:\nCourseCode, CourseTitle, Level, Semester, LecturerName, Venue, Schedule, Description, Status\n\n4) Timetable\nFields:\nLevel, CourseCode, CourseTitle, Day, Time, Venue, LecturerName, Status\n\n5) DepartmentInfo\nFields:\nInfoType, Title, Details, ContactPerson, ContactPhone, LastUpdated, Status\n\nThe bot should support two types of users:\n\n1) Admins\nAdmins are approved department staff or representatives.\nAdmins should be verified by their WhatsApp phone number or by an admin access code.\nAdmins can add, edit, remove, and view information stored in Google Sheets.\nAdmins can manage announcements, lecturer details, courses, timetables, and general department information.\n\nAdmin actions should be done using normal WhatsApp messages such as:\n“Add announcement”\n“Update announcement”\n“Delete announcement”\n“View active announcements”\n“Add lecturer”\n“Update lecturer”\n“Add course”\n“Update timetable”\n\nDo not use Telegram-style slash commands.\n\n2) Students\nStudents can ask questions naturally in WhatsApp private chat.\n\nExamples of student questions:\n“What is the latest announcement?”\n“Show me 300 level announcements”\n“When is the CSC 302 test?”\n“What is today’s lecture update?”\n“Who teaches CSC 302?”\n“Show me Dr. Musa’s details”\n“What courses does Dr. Amina teach?”\n“Where is Mr. John’s office?”\n“Send Dr. Bello’s picture”\n“What is the department fee?”\n“Show me the timetable for 200 level”\n“Who is the department contact person?”\nThe bot should search the Google Sheets data and reply with the most relevant confirmed information.\n\nFor lecturer questions, the bot should be able to return:\nLecturer name\nTitle\nDepartment role\nOffice location\nPhone number\nEmail\nCourses taught\nOffice hours\nShort bio\nLecturer photo, using the PhotoURL field\n\nIf the WhatsApp integration supports sending images, the bot should send the lecturer’s photo directly. If image sending is not supported, the bot should send the photo link from the PhotoURL field.\n\nThe bot must not invent information. If the information is not found in Google Sheets, it should reply:\n“I don’t have confirmed information on that yet. Please check back later or contact the Department of Software Engineering representative.”\n\nThe bot should prioritize active and current records only. Expired announcements should not be shown unless an admin asks for them.\n\nThe bot should keep responses clear, short, and suitable for WhatsApp chat.\n\nThe bot should respect privacy and only share lecturer details that are already approved by the department for student access.\n\nImportant deployment instruction:\nDeploy this assistant as a WhatsApp Business bot only. If WhatsApp setup is not connected, ask me to connect WhatsApp Business or WhatsApp Business API first. Do not create a Telegram bot as a fallback."
+    },
+    {
+      "role": "assistant",
+      "content": "Built the WhatsApp-only Wukari SE Desk bot with CookMyBots webhook handling, AI intent routing, Google Sheets data access, admin workflows, safe logging, docs, and deployment envs.\n\nFiles touched (17): .env.sample, DOCS.md, eslint.config.js, package.json, src/bot.js, src/brain.js…\nValidation: ✅ project passes syntax/basic checks after this edit."
+    }
+  ],
+  "createdBy": "6a3c3ca1b95596e9e91db99e",
+  "source": "ai-cold-start",
+  "description": "",
+  "platform": "whatsapp",
+  "usesWebApp": false,
+  "telegramKind": "bot",
+  "planMarkdown": "Bot: Wukari SE Desk\n\nSummary:\nA WhatsApp-only private chat assistant for the Department of Software Engineering, Faculty of Computing and Information Systems, Federal University Wukari. It uses CookMyBots for managed WhatsApp transport and Google Sheets as the department-managed information source for announcements, lecturers, courses, timetables, and general department information.\n\nProduct goals:\nProvide students with fast, accurate, approved department information through WhatsApp private chat only. The bot must introduce itself as: “Hello, I am the official WhatsApp assistant for the Department of Software Engineering, Faculty of Computing and Information Systems, Federal University Wukari. I can help you with department announcements, lecturer information, courses, timetables, fees, deadlines, venues, and other approved department information.” It must answer natural student questions, support staff/admin updates through normal WhatsApp messages, keep replies short and clear, and never invent information. If confirmed data is unavailable, it must reply: “I don’t have confirmed information on that yet. Please check back later or contact the Department of Software Engineering representative.”\n\nHigh-level architecture:\nSingle Node.js ESM service connected to CookMyBots managed WhatsApp transport for receiving and sending WhatsApp private chat messages. No Telegram support, no Telegram fallback, no Telegram tokens, no Telegram commands, and no Telegram deployment path. The service contains: 1) WhatsApp message adapter for CookMyBots inbound/outbound messages, 2) intent router for student questions and admin actions, 3) Google Sheets repository layer for all department data, 4) admin verification module using approved WhatsApp phone numbers and/or access codes, 5) response formatter optimized for WhatsApp chat, 6) optional media sender for lecturer photos when image sending is supported by the WhatsApp transport. If WhatsApp Business or WhatsApp Business API is not connected in CookMyBots, the bot should ask the owner to connect WhatsApp first and should not create another platform bot. The service should treat Google Sheets as the source of truth and should refresh/read data from Sheets on demand or with a short cache window to avoid stale answers.\n\nData model:\nPrimary data store: Google Sheets. Required sheets: Announcements with fields AnnouncementID, Title, Category, Level, CourseCode, Message, DatePosted, ExpiryDate, Priority, Status. Lecturers with fields LecturerID, FullName, Title, DepartmentRole, OfficeLocation, PhoneNumber, Email, CoursesTaught, OfficeHours, Bio, PhotoURL, Status. Courses with fields CourseCode, CourseTitle, Level, Semester, LecturerName, Venue, Schedule, Description, Status. Timetable with fields Level, CourseCode, CourseTitle, Day, Time, Venue, LecturerName, Status. DepartmentInfo with fields InfoType, Title, Details, ContactPerson, ContactPhone, LastUpdated, Status. Recommended additional Google Sheets for operations: AdminUsers with fields PhoneNumber, FullName, Role, AccessCodeHash, Status, LastVerifiedAt; AuditLog with fields Timestamp, AdminPhone, Action, SheetName, RecordID, BeforeValue, AfterValue, Result. Status should be used consistently, for example Active, Inactive, Draft, Archived. Announcements should be shown to students only when Status is Active and ExpiryDate is empty or in the future. Expired announcements remain available only to verified admins.\n\nKey flows:\nStudent onboarding: when a student first messages the WhatsApp number, the bot sends the official introduction and examples of what they can ask. Student question flow: normalize the message, detect intent such as announcement, timetable, course, lecturer, fee, deadline, venue, contact, or general information, search active/current Google Sheets rows, rank exact matches first by course code, level, lecturer name, date, and priority, then reply with the most relevant confirmed information. Lecturer photo flow: when a student asks for a lecturer picture, find the active lecturer row and use PhotoURL; if CookMyBots image sending is available, send the image, otherwise send the link. Admin verification flow: an admin is verified automatically if their WhatsApp phone number is approved, or manually by sending an admin access code. Admin management flow: verified admins send normal WhatsApp phrases such as Add announcement, Update lecturer, or Update timetable; the bot asks step-by-step for required fields, validates the data, writes to Google Sheets, confirms the change, and records an audit entry. Delete flow should preferably mark records Inactive or Archived instead of physically deleting rows, unless the department explicitly allows hard deletion. Unknown or missing information flow: never guess; send the approved fallback message. Privacy flow: only share lecturer contact details that are present in active approved Google Sheets records.\n\nTech stack:\nRuntime: single Node.js service using ESM. WhatsApp transport: CookMyBots managed WhatsApp integration for private chat inbound and outbound messages. Data management: Google Sheets API as the source of truth for all department content. Optional persistence: MongoDB only if needed for non-authoritative conversation state, short-lived admin workflows, idempotency, or audit backup; department content remains in Google Sheets. Media: lecturer photos referenced by PhotoURL and delivered through WhatsApp media support when available, otherwise returned as links. Configuration: environment variables for Google credentials, spreadsheet IDs, CookMyBots connection settings, cache settings, and bot identity. Do not require WhatsApp Cloud API webhook implementation or WHATSAPPTOKEN, WHATSAPPPHONENUMBERID, or WHATSAPPVERIFYTOKEN.\n\nNon-functional requirements:\nAccuracy is mandatory: the bot must only answer from approved Google Sheets records. Availability should be suitable for department daily use, with graceful handling of Google Sheets API delays or failures. Security: protect Google credentials, restrict admin actions by phone number/access code, validate all admin inputs, and keep audit logs. Privacy: expose only department-approved lecturer details. Reliability: handle duplicate inbound messages idempotently where possible and avoid partial writes during admin workflows. Performance: cache sheet reads briefly but invalidate or refresh after admin updates. Maintainability: keep sheets, repository methods, intent handlers, and response templates separated. Deployment: deploy as a single service process with WhatsApp connected through CookMyBots only; if WhatsApp is not connected, prompt to connect WhatsApp Business or WhatsApp Business API first and do not deploy to Telegram or any fallback chat platform.\n\nBot commands:\n• Latest announcement — Shows the most recent active department announcements. (usage: latest announcement) [student]\n• Level announcements — Shows active announcements for a specific student level. (usage: show me 300 level announcements) [student]\n• Course lecturer — Finds who teaches a specific course. (usage: who teaches CSC 302?) [student]\n• Lecturer details — Returns approved details for a lecturer, including role, office, contact, courses, office hours, and bio where available. (usage: show me Dr. Musa's details) [student]\n• Lecturer photo — Sends the lecturer photo from the approved PhotoURL field or returns the photo link if direct image sending is unavailable. (usage: send Dr. Bello's picture) [student]\n• Level timetable — Shows the active timetable for a specified level. (usage: show me the timetable for 200 level) [student]\n• Department fee — Returns active approved fee information from DepartmentInfo. (usage: what is the department fee?) [student]\n• Department contact — Returns the approved department contact person and phone number. (usage: who is the department contact person?) [student]\n• Add announcement — Starts an admin workflow to create a new announcement in Google Sheets. (usage: Add announcement) [admin]\n• Update announcement — Starts an admin workflow to edit an existing announcement. (usage: Update announcement) [admin]\n• Delete announcement — Allows a verified admin to archive or deactivate an announcement. (usage: Delete announcement) [admin]\n• View active announcements — Shows active announcements to a verified admin, including IDs for editing. (usage: View active announcements) [admin]\n• Add lecturer — Starts an admin workflow to add lecturer information. (usage: Add lecturer) [admin]\n• Update lecturer — Starts an admin workflow to update lecturer information. (usage: Update lecturer) [admin]\n• Add course — Starts an admin workflow to add a course record. (usage: Add course) [admin]\n• Update timetable — Starts an admin workflow to add or edit timetable entries. (usage: Update timetable) [admin]\n",
+  "planSections": {
+    "productGoals": "Provide students with fast, accurate, approved department information through WhatsApp private chat only. The bot must introduce itself as: “Hello, I am the official WhatsApp assistant for the Department of Software Engineering, Faculty of Computing and Information Systems, Federal University Wukari. I can help you with department announcements, lecturer information, courses, timetables, fees, deadlines, venues, and other approved department information.” It must answer natural student questions, support staff/admin updates through normal WhatsApp messages, keep replies short and clear, and never invent information. If confirmed data is unavailable, it must reply: “I don’t have confirmed information on that yet. Please check back later or contact the Department of Software Engineering representative.”",
+    "highLevelArchitecture": "Single Node.js ESM service connected to CookMyBots managed WhatsApp transport for receiving and sending WhatsApp private chat messages. No Telegram support, no Telegram fallback, no Telegram tokens, no Telegram commands, and no Telegram deployment path. The service contains: 1) WhatsApp message adapter for CookMyBots inbound/outbound messages, 2) intent router for student questions and admin actions, 3) Google Sheets repository layer for all department data, 4) admin verification module using approved WhatsApp phone numbers and/or access codes, 5) response formatter optimized for WhatsApp chat, 6) optional media sender for lecturer photos when image sending is supported by the WhatsApp transport. If WhatsApp Business or WhatsApp Business API is not connected in CookMyBots, the bot should ask the owner to connect WhatsApp first and should not create another platform bot. The service should treat Google Sheets as the source of truth and should refresh/read data from Sheets on demand or with a short cache window to avoid stale answers.",
+    "dataModel": "Primary data store: Google Sheets. Required sheets: Announcements with fields AnnouncementID, Title, Category, Level, CourseCode, Message, DatePosted, ExpiryDate, Priority, Status. Lecturers with fields LecturerID, FullName, Title, DepartmentRole, OfficeLocation, PhoneNumber, Email, CoursesTaught, OfficeHours, Bio, PhotoURL, Status. Courses with fields CourseCode, CourseTitle, Level, Semester, LecturerName, Venue, Schedule, Description, Status. Timetable with fields Level, CourseCode, CourseTitle, Day, Time, Venue, LecturerName, Status. DepartmentInfo with fields InfoType, Title, Details, ContactPerson, ContactPhone, LastUpdated, Status. Recommended additional Google Sheets for operations: AdminUsers with fields PhoneNumber, FullName, Role, AccessCodeHash, Status, LastVerifiedAt; AuditLog with fields Timestamp, AdminPhone, Action, SheetName, RecordID, BeforeValue, AfterValue, Result. Status should be used consistently, for example Active, Inactive, Draft, Archived. Announcements should be shown to students only when Status is Active and ExpiryDate is empty or in the future. Expired announcements remain available only to verified admins.",
+    "keyFlows": "Student onboarding: when a student first messages the WhatsApp number, the bot sends the official introduction and examples of what they can ask. Student question flow: normalize the message, detect intent such as announcement, timetable, course, lecturer, fee, deadline, venue, contact, or general information, search active/current Google Sheets rows, rank exact matches first by course code, level, lecturer name, date, and priority, then reply with the most relevant confirmed information. Lecturer photo flow: when a student asks for a lecturer picture, find the active lecturer row and use PhotoURL; if CookMyBots image sending is available, send the image, otherwise send the link. Admin verification flow: an admin is verified automatically if their WhatsApp phone number is approved, or manually by sending an admin access code. Admin management flow: verified admins send normal WhatsApp phrases such as Add announcement, Update lecturer, or Update timetable; the bot asks step-by-step for required fields, validates the data, writes to Google Sheets, confirms the change, and records an audit entry. Delete flow should preferably mark records Inactive or Archived instead of physically deleting rows, unless the department explicitly allows hard deletion. Unknown or missing information flow: never guess; send the approved fallback message. Privacy flow: only share lecturer contact details that are present in active approved Google Sheets records.",
+    "techStack": "Runtime: single Node.js service using ESM. WhatsApp transport: CookMyBots managed WhatsApp integration for private chat inbound and outbound messages. Data management: Google Sheets API as the source of truth for all department content. Optional persistence: MongoDB only if needed for non-authoritative conversation state, short-lived admin workflows, idempotency, or audit backup; department content remains in Google Sheets. Media: lecturer photos referenced by PhotoURL and delivered through WhatsApp media support when available, otherwise returned as links. Configuration: environment variables for Google credentials, spreadsheet IDs, CookMyBots connection settings, cache settings, and bot identity. Do not require WhatsApp Cloud API webhook implementation or WHATSAPPTOKEN, WHATSAPPPHONENUMBERID, or WHATSAPPVERIFYTOKEN.",
+    "nonFunctional": "Accuracy is mandatory: the bot must only answer from approved Google Sheets records. Availability should be suitable for department daily use, with graceful handling of Google Sheets API delays or failures. Security: protect Google credentials, restrict admin actions by phone number/access code, validate all admin inputs, and keep audit logs. Privacy: expose only department-approved lecturer details. Reliability: handle duplicate inbound messages idempotently where possible and avoid partial writes during admin workflows. Performance: cache sheet reads briefly but invalidate or refresh after admin updates. Maintainability: keep sheets, repository methods, intent handlers, and response templates separated. Deployment: deploy as a single service process with WhatsApp connected through CookMyBots only; if WhatsApp is not connected, prompt to connect WhatsApp Business or WhatsApp Business API first and do not deploy to Telegram or any fallback chat platform."
+  },
+  "planCommands": [
+    {
+      "name": "Latest announcement",
+      "description": "Shows the most recent active department announcements.",
+      "usage": "latest announcement",
+      "category": "student"
+    },
+    {
+      "name": "Level announcements",
+      "description": "Shows active announcements for a specific student level.",
+      "usage": "show me 300 level announcements",
+      "category": "student"
+    },
+    {
+      "name": "Course lecturer",
+      "description": "Finds who teaches a specific course.",
+      "usage": "who teaches CSC 302?",
+      "category": "student"
+    },
+    {
+      "name": "Lecturer details",
+      "description": "Returns approved details for a lecturer, including role, office, contact, courses, office hours, and bio where available.",
+      "usage": "show me Dr. Musa's details",
+      "category": "student"
+    },
+    {
+      "name": "Lecturer photo",
+      "description": "Sends the lecturer photo from the approved PhotoURL field or returns the photo link if direct image sending is unavailable.",
+      "usage": "send Dr. Bello's picture",
+      "category": "student"
+    },
+    {
+      "name": "Level timetable",
+      "description": "Shows the active timetable for a specified level.",
+      "usage": "show me the timetable for 200 level",
+      "category": "student"
+    },
+    {
+      "name": "Department fee",
+      "description": "Returns active approved fee information from DepartmentInfo.",
+      "usage": "what is the department fee?",
+      "category": "student"
+    },
+    {
+      "name": "Department contact",
+      "description": "Returns the approved department contact person and phone number.",
+      "usage": "who is the department contact person?",
+      "category": "student"
+    },
+    {
+      "name": "Add announcement",
+      "description": "Starts an admin workflow to create a new announcement in Google Sheets.",
+      "usage": "Add announcement",
+      "category": "admin"
+    },
+    {
+      "name": "Update announcement",
+      "description": "Starts an admin workflow to edit an existing announcement.",
+      "usage": "Update announcement",
+      "category": "admin"
+    },
+    {
+      "name": "Delete announcement",
+      "description": "Allows a verified admin to archive or deactivate an announcement.",
+      "usage": "Delete announcement",
+      "category": "admin"
+    },
+    {
+      "name": "View active announcements",
+      "description": "Shows active announcements to a verified admin, including IDs for editing.",
+      "usage": "View active announcements",
+      "category": "admin"
+    },
+    {
+      "name": "Add lecturer",
+      "description": "Starts an admin workflow to add lecturer information.",
+      "usage": "Add lecturer",
+      "category": "admin"
+    },
+    {
+      "name": "Update lecturer",
+      "description": "Starts an admin workflow to update lecturer information.",
+      "usage": "Update lecturer",
+      "category": "admin"
+    },
+    {
+      "name": "Add course",
+      "description": "Starts an admin workflow to add a course record.",
+      "usage": "Add course",
+      "category": "admin"
+    },
+    {
+      "name": "Update timetable",
+      "description": "Starts an admin workflow to add or edit timetable entries.",
+      "usage": "Update timetable",
+      "category": "admin"
+    }
+  ],
+  "envVarDocs": [
+    {
+      "key": "CMB_WHATSAPP_WEBHOOK_SECRET",
+      "title": "CookMyBots WhatsApp Webhook Secret",
+      "description": "Verifies inbound managed WhatsApp webhook requests from CookMyBots.",
+      "usage": "Checked against the X-CookMyBots-Webhook-Secret header.",
+      "howToGet": "Injected or configured by CookMyBots for the deployed bot.",
+      "example": "long-random-secret",
+      "isSecret": true,
+      "required": true
+    },
+    {
+      "key": "COOKMYBOTS_AI_ENDPOINT",
+      "title": "CookMyBots AI Endpoint",
+      "description": "Base URL for the CookMyBots AI Gateway.",
+      "usage": "The bot appends /chat for intent classification.",
+      "howToGet": "Provided by CookMyBots.",
+      "example": "https://api.cookmybots.com/api/ai",
+      "isSecret": false,
+      "required": true
+    },
+    {
+      "key": "COOKMYBOTS_AI_KEY",
+      "title": "CookMyBots AI Key",
+      "description": "Authenticates AI Gateway requests.",
+      "usage": "Sent as Authorization: Bearer token.",
+      "howToGet": "Provided by CookMyBots.",
+      "example": "cmb_ai_key_xxx",
+      "isSecret": true,
+      "required": true
+    },
+    {
+      "key": "AI_TIMEOUT_MS",
+      "title": "AI Timeout",
+      "description": "Maximum AI Gateway request time in milliseconds.",
+      "usage": "Defaults to 600000.",
+      "howToGet": "Set manually if needed.",
+      "example": "600000",
+      "isSecret": false,
+      "required": false
+    },
+    {
+      "key": "AI_MAX_RETRIES",
+      "title": "AI Max Retries",
+      "description": "Number of AI Gateway retry attempts.",
+      "usage": "Defaults to 2.",
+      "howToGet": "Set manually if needed.",
+      "example": "2",
+      "isSecret": false,
+      "required": false
+    },
+    {
+      "key": "CONCURRENCY",
+      "title": "Concurrency",
+      "description": "Runtime concurrency setting used with conservative AI backpressure.",
+      "usage": "Defaults to 20, with AI in-flight capped internally.",
+      "howToGet": "Set manually if needed.",
+      "example": "20",
+      "isSecret": false,
+      "required": false
+    },
+    {
+      "key": "WEB3_CHAT_MODE",
+      "title": "Web3 Chat Mode",
+      "description": "AI Gateway routing mode. This bot defaults to off because it is a university department assistant.",
+      "usage": "Read by AI metadata.",
+      "howToGet": "Set manually if needed.",
+      "example": "off",
+      "isSecret": false,
+      "required": false
+    },
+    {
+      "key": "GOOGLE_SHEETS_SPREADSHEET_ID",
+      "title": "Google Sheets Spreadsheet ID",
+      "description": "Spreadsheet used as the source of truth for department data.",
+      "usage": "Used by the Google Sheets repository for all reads and writes.",
+      "howToGet": "Copy from the Google Sheet URL.",
+      "example": "1abcDEFghiJKLmnoPQRstuVWxyz",
+      "isSecret": false,
+      "required": true
+    },
+    {
+      "key": "GOOGLE_SERVICE_ACCOUNT_EMAIL",
+      "title": "Google Service Account Email",
+      "description": "Service account email with edit access to the spreadsheet.",
+      "usage": "Used for Google Sheets API authentication.",
+      "howToGet": "Create a Google Cloud service account and share the sheet with this email.",
+      "example": "bot-writer@project.iam.gserviceaccount.com",
+      "isSecret": false,
+      "required": true
+    },
+    {
+      "key": "GOOGLE_PRIVATE_KEY",
+      "title": "Google Private Key",
+      "description": "Private key for the Google service account.",
+      "usage": "Used for Google Sheets API authentication.",
+      "howToGet": "Download the service account JSON key and copy the private_key value.",
+      "example": "-----BEGIN PRIVATE KEY-----\\n...\\n-----END PRIVATE KEY-----\\n",
+      "isSecret": true,
+      "required": false
+    },
+    {
+      "key": "GOOGLE_PRIVATE_KEY_BASE64",
+      "title": "Google Private Key Base64",
+      "description": "Base64 encoded alternative to GOOGLE_PRIVATE_KEY.",
+      "usage": "Preferred if the hosting provider has trouble with multiline private keys.",
+      "howToGet": "Base64 encode the private_key value from the service account JSON.",
+      "example": "LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0t...",
+      "isSecret": true,
+      "required": false
+    },
+    {
+      "key": "GOOGLE_SHEETS_CACHE_TTL_MS",
+      "title": "Google Sheets Cache TTL",
+      "description": "Short read cache duration for Google Sheets reads.",
+      "usage": "Defaults to 30000 milliseconds.",
+      "howToGet": "Set manually if needed.",
+      "example": "30000",
+      "isSecret": false,
+      "required": false
+    },
+    {
+      "key": "ADMIN_PHONE_NUMBERS",
+      "title": "Admin Phone Numbers",
+      "description": "Optional comma-separated approved WhatsApp admin phone numbers.",
+      "usage": "Auto-verifies admins by sender phone number.",
+      "howToGet": "Set manually using approved department staff numbers.",
+      "example": "2348012345678,2348099999999",
+      "isSecret": true,
+      "required": false
+    },
+    {
+      "key": "ADMIN_ACCESS_CODE_HASH",
+      "title": "Admin Access Code Hash",
+      "description": "SHA-256 hash of the admin access code.",
+      "usage": "Verifies admins who send admin code YOUR_CODE.",
+      "howToGet": "Hash the approved code with SHA-256.",
+      "example": "64-character-sha256-hex",
+      "isSecret": true,
+      "required": false
+    },
+    {
+      "key": "ADMIN_ACCESS_CODE",
+      "title": "Admin Access Code",
+      "description": "Optional plain admin access code for quick setup.",
+      "usage": "Verifies admins who send admin code YOUR_CODE.",
+      "howToGet": "Set manually. Prefer ADMIN_ACCESS_CODE_HASH in production.",
+      "example": "123456",
+      "isSecret": true,
+      "required": false
+    },
+    {
+      "key": "MONGODB_URI",
+      "title": "MongoDB URI",
+      "description": "Optional storage for conversation traces and admin workflow state.",
+      "usage": "The bot remains functional with in-memory state if missing, but MongoDB is recommended for production.",
+      "howToGet": "Create a MongoDB database and copy the connection URI.",
+      "example": "mongodb+srv://user:pass@cluster/db",
+      "isSecret": true,
+      "required": false
+    }
+  ],
+  "commandDocs": [
+    {
+      "command": "latest announcement",
+      "description": "Shows the most recent active department announcements from Google Sheets.",
+      "usage": "latest announcement",
+      "examples": [
+        "User: latest announcement → Bot: Shows active announcements."
+      ],
+      "notes": "WhatsApp natural-language capability, not a slash command."
+    },
+    {
+      "command": "show me 300 level announcements",
+      "description": "Shows active current announcements for a specific level.",
+      "usage": "show me 300 level announcements",
+      "examples": [
+        "User: show me 300 level announcements → Bot: Lists active 300 level announcements."
+      ],
+      "notes": "Expired announcements are hidden from students."
+    },
+    {
+      "command": "who teaches CSC 302?",
+      "description": "Finds the lecturer and course details for a course code.",
+      "usage": "who teaches CSC 302?",
+      "examples": [
+        "User: who teaches CSC 302? → Bot: Returns lecturer, venue, schedule, and semester if available."
+      ],
+      "notes": "Answers only from active Courses records."
+    },
+    {
+      "command": "show me Dr. Musa's details",
+      "description": "Returns approved lecturer details such as role, office, phone, email, courses, office hours, bio, and photo link.",
+      "usage": "show me Dr. Musa's details",
+      "examples": [
+        "User: show me Dr. Musa's details → Bot: Returns approved details from the Lecturers sheet."
+      ],
+      "notes": "Only active approved records are shared."
+    },
+    {
+      "command": "send Dr. Bello's picture",
+      "description": "Returns the lecturer PhotoURL from the approved Lecturers sheet.",
+      "usage": "send Dr. Bello's picture",
+      "examples": [
+        "User: send Dr. Bello's picture → Bot: Sends the approved photo link."
+      ],
+      "notes": "Direct media sending can be added when the managed WhatsApp transport exposes image upload for bot brains."
+    },
+    {
+      "command": "show me the timetable for 200 level",
+      "description": "Shows active timetable entries for the specified level.",
+      "usage": "show me the timetable for 200 level",
+      "examples": [
+        "User: show me the timetable for 200 level → Bot: Lists timetable rows by day and time."
+      ],
+      "notes": "Uses the Timetable Google Sheet."
+    },
+    {
+      "command": "what is the department fee?",
+      "description": "Returns active approved fee information from DepartmentInfo.",
+      "usage": "what is the department fee?",
+      "examples": [
+        "User: what is the department fee? → Bot: Returns confirmed fee details if present."
+      ],
+      "notes": "The bot does not invent fee amounts."
+    },
+    {
+      "command": "who is the department contact person?",
+      "description": "Returns the approved department contact person and phone number.",
+      "usage": "who is the department contact person?",
+      "examples": [
+        "User: who is the department contact person? → Bot: Returns contact details from DepartmentInfo."
+      ],
+      "notes": "Uses active approved DepartmentInfo records."
+    },
+    {
+      "command": "admin code YOUR_CODE",
+      "description": "Verifies approved department staff for admin actions.",
+      "usage": "admin code YOUR_CODE",
+      "examples": [
+        "User: admin code 123456 → Bot: Admin access verified."
+      ],
+      "notes": "Use ADMIN_ACCESS_CODE_HASH or AdminUsers.AccessCodeHash in production."
+    },
+    {
+      "command": "Add announcement",
+      "description": "Starts an admin workflow to add an announcement to Google Sheets.",
+      "usage": "Add announcement",
+      "examples": [
+        "Admin: Add announcement → Bot: Asks for each required field."
+      ],
+      "notes": "Requires verified admin access."
+    },
+    {
+      "command": "Update announcement",
+      "description": "Starts an admin workflow to update an existing announcement.",
+      "usage": "Update announcement",
+      "examples": [
+        "Admin: Update announcement → Bot: Asks for AnnouncementID, field, and new value."
+      ],
+      "notes": "Requires verified admin access."
+    },
+    {
+      "command": "Delete announcement",
+      "description": "Archives an announcement by setting Status to Archived.",
+      "usage": "Delete announcement",
+      "examples": [
+        "Admin: Delete announcement → Bot: Asks for AnnouncementID."
+      ],
+      "notes": "The bot does not hard-delete rows."
+    },
+    {
+      "command": "View active announcements",
+      "description": "Shows active announcements with IDs for admin editing.",
+      "usage": "View active announcements",
+      "examples": [
+        "Admin: View active announcements → Bot: Lists active announcements and IDs."
+      ],
+      "notes": "Requires verified admin access."
+    },
+    {
+      "command": "Add lecturer",
+      "description": "Starts an admin workflow to add lecturer information.",
+      "usage": "Add lecturer",
+      "examples": [
+        "Admin: Add lecturer → Bot: Asks for lecturer fields."
+      ],
+      "notes": "Requires verified admin access."
+    },
+    {
+      "command": "Update lecturer",
+      "description": "Starts an admin workflow to update lecturer information.",
+      "usage": "Update lecturer",
+      "examples": [
+        "Admin: Update lecturer → Bot: Asks for LecturerID, field, and new value."
+      ],
+      "notes": "Requires verified admin access."
+    },
+    {
+      "command": "Add course",
+      "description": "Starts an admin workflow to add a course record.",
+      "usage": "Add course",
+      "examples": [
+        "Admin: Add course → Bot: Asks for course fields."
+      ],
+      "notes": "Requires verified admin access."
+    },
+    {
+      "command": "Update timetable",
+      "description": "Adds or updates a timetable entry matched by Level, CourseCode, and Day.",
+      "usage": "Update timetable",
+      "examples": [
+        "Admin: Update timetable → Bot: Asks for timetable fields."
+      ],
+      "notes": "Requires verified admin access."
+    }
+  ]
+}
